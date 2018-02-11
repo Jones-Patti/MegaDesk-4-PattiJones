@@ -13,34 +13,44 @@ namespace MegaDesk_3_PattiJones
 {
     public partial class ViewQuotes : Form
     {
-        public ViewQuotes()
+		private Form MainMenuForm;
+
+        public ViewQuotes(Form mainMenu)
         {
             InitializeComponent();
-            string quote = "quotes.txt";
-            try
-            {
-                using (StreamReader sr = new StreamReader(quote))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        string[] quotes = sr.ReadLine().Split(',');
-                        //displayQuotesTable.Rows.Add(quotes[0], quotes[1], 
-                        //quotes[2], quotes[3], quotes[4], quotes[5], 
-                        //quotes[6], quotes[7]);
-                    }
-                }
-            }
-            catch (FileNotFoundException e)
-            {
-                label1.Text = "No files with that name";
-            }
+
+			MainMenuForm = mainMenu;
+
+			showQuotes();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.Show();
-            Close();
-        }
-    }
+		private void showQuotes()
+		{
+			string csvFile = "quotes.txt";
+			try
+			{
+				string[] quotes = File.ReadAllLines(csvFile);
+
+				foreach (string quote in quotes)
+				{
+					string[] row = quote.Split(',');
+					dataGridView1.Rows.Add(row);
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+
+			}
+		}
+
+		private void ViewQuotes_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			MainMenuForm.Show();
+		}
+
+		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+
+		}
+	}
 }

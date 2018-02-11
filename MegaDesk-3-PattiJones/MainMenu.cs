@@ -25,7 +25,7 @@ namespace MegaDesk_3_PattiJones
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            ViewQuotes addNewQuoteForm = new ViewQuotes();
+            ViewQuotes addNewQuoteForm = new ViewQuotes(this);
             addNewQuoteForm.Tag = this;
             addNewQuoteForm.Show(this);
             Hide();

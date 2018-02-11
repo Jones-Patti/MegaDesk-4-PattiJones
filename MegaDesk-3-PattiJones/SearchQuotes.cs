@@ -33,31 +33,60 @@ namespace MegaDesk_3_PattiJones
             //Clear what is inside the textbox
             //comboBox1.Rows.Clear();
 
-            try
-            {
-                using (StreamReader sr = new StreamReader(quote))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        string[] quotes = sr.ReadLine().Split(',');
-                        if (quotes.Contains(comboBox1.Text))
-                        {
-                            //comboBox1.Rows.Add(quotes[0], quotes[1], 
-                                quotes[2], quotes[3], quotes[4], quotes[5], 
-                                quotes[6], quotes[7]);
-                        }
-                        else
-                        {
-                            label1.Text = "No Matches";
-                        }
-
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                label1.Text = "No desk quotes available";
-            }
         }
-    }
+		
+		private void showQuotes(Desk.Material material)
+		{
+			string csvFile = "quotes.txt";
+			try
+			{
+				string[] quotes = File.ReadAllLines(csvFile);
+
+				foreach (string quote in quotes)
+				{
+					string[] row = quote.Split(',');
+
+					if (row[4].Equals(material.ToString())) {
+
+						dataGridView1.Rows.Add(row);
+					}
+				}
+			}
+			catch (FileNotFoundException e)
+			{
+
+			}
+		}
+
+		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			dataGridView1.Rows.Clear();
+
+			switch((Desk.Material) comboBox1.SelectedItem)
+			{
+				case Desk.Material.Laminate:
+					showQuotes(Desk.Material.Laminate);
+					break;
+				case Desk.Material.Oak:
+					showQuotes(Desk.Material.Oak);
+					break;
+				case Desk.Material.Veneer:
+					showQuotes(Desk.Material.Veneer);
+					break;
+				case Desk.Material.Rosewood:
+					showQuotes(Desk.Material.Rosewood);
+					break;
+				case Desk.Material.Pine:
+					showQuotes(Desk.Material.Pine);
+					break;
+			}
+
+
+		}
+
+		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+
+		}
+	}
 }
